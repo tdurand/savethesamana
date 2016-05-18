@@ -14,7 +14,32 @@ function collapseNavbar() {
 }
 
 $(window).scroll(collapseNavbar);
-$(document).ready(collapseNavbar);
+$(document).ready(function() {
+    collapseNavbar();
+    visibleIntroPicture = true;
+    //If desktop
+    if(window.innerWidth > 767) {
+        visibleIntroPicture = false;
+        $('.reveal-picture').one('mouseover',function() {
+            showIntroPicture()
+        });
+        $(window).scroll(showIntroPicture);
+    }
+
+});
+
+function showIntroPicture() {
+    if(!visibleIntroPicture) {
+        visibleIntroPicture = true;
+        var color = {gray:1, blur:3};
+        TweenMax.to(color, 1.5, {gray:0, blur:0, onUpdate:applyColor, onUpdateParams:[$('.intro-picture')]})
+        function applyColor(element) {
+          element.css("-webkit-filter", "grayscale(" + color.gray + ") blur(" + color.blur + "px)");
+        }
+
+        $('.intro-cta').addClass('revealed');
+    }
+}
 
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
